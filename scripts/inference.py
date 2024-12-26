@@ -3,6 +3,7 @@ import pandas as pd
 from torchvision import models, transforms
 from torch.utils.data import DataLoader
 from utils import FlowerDataset
+from torchvision.models import ResNet152_Weights
 from torchvision.models import ResNet18_Weights
 
 # 加载数值标签 ↔ 字符串类别的映射关系

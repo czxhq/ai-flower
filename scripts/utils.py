@@ -40,13 +40,19 @@ class FlowerDataset(Dataset):
 def get_data_loaders(train_csv, test_csv, train_image_dir, test_image_dir, batch_size=32):
     # 数据增强和预处理
     transform = transforms.Compose([
-        transforms.Resize((224, 224)),
+        transforms.Resize((400, 400)),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ])
+    transform1 = transforms.Compose([
+        transforms.Resize((400, 400)),
+        transforms.RandomHorizontalFlip(),  # 随机水平翻转
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
 
     # 创建训练集和测试集
-    train_dataset = FlowerDataset(train_image_dir, train_csv, transform=transform)
+    train_dataset = FlowerDataset(train_image_dir, train_csv, transform=transform1)
     test_dataset = FlowerDataset(test_image_dir, test_csv, transform=transform)
 
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)

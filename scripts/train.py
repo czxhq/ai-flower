@@ -6,11 +6,12 @@ from torchvision import models
 from sklearn.metrics import accuracy_score
 from utils import get_data_loaders
 from torchvision.models import ResNet18_Weights
+from torchvision.models import ResNet18_Weights
 
 # 设置超参数
-batch_size = 32
+batch_size = 64
 epochs = 10
-learning_rate = 0.001
+learning_rate = 0.0001
 num_classes = 17  # 17种花
 
 # 加载数据
@@ -36,8 +37,8 @@ model = model.to(device)
 
 # 定义损失函数和优化器
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-
+optimizer = optim.AdamW(model.parameters(), lr=learning_rate, weight_decay=1e-4)
+scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=7, gamma=0.1)
 # 训练过程
 for epoch in range(epochs):
     model.train()
@@ -70,6 +71,9 @@ for epoch in range(epochs):
         f"Epoch {epoch + 1}/{epochs}, Loss: {running_loss / len(train_loader):.4f}, "
         f"Accuracy: {train_accuracy:.2f}%"
     )
+
+    # 更新学习率
+    scheduler.step()
 
 # 保存训练好的模型
 torch.save(model.state_dict(), '../model/flower_classification.pth')
