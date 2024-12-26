@@ -9,8 +9,8 @@ from torchvision.models import ResNet18_Weights
 from torchvision.models import ResNet18_Weights
 
 # 设置超参数
-batch_size = 64
-epochs = 10
+batch_size = 6
+epochs = 15
 learning_rate = 0.0001
 num_classes = 17  # 17种花
 
